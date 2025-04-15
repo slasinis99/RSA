@@ -3,14 +3,13 @@ from random import randint, choice
 from sympy import isprime
 from gcd import gcd, find_modular_inverse
 
-DIGIT_MIN = 400
-DIGIT_MAX = 500
+DIGIT_SIZE = 100
 
 def big_prime() -> int:
     n = "1"
     while not isprime(int(n)):
         n = f"{randint(1,9)}"
-        for _ in range(randint(DIGIT_MIN,DIGIT_MAX-2)):
+        for _ in range(DIGIT_SIZE-2):
             n += f'{randint(0,9)}'
         n += f'{choice([1,3,7,9])}'
     return int(n)
@@ -64,9 +63,8 @@ class User():
     def public_key(self):
         return (self.n, self.e)
     
-    def encrypt(self, n, e, filename):
-        with open(filename, 'rb') as f:
-            plaintext_bytes = f.read()
+    def encrypt(self, n, e, s: str):
+        plaintext_bytes = bytes(s, 'utf-8')
         padded_message = pad(plaintext_bytes, (n.bit_length() + 7) // 8)
         m = os2ip(padded_message)
         return exp(m, e, n)
@@ -78,16 +76,16 @@ class User():
         return plaintext_bytes.decode('utf-8')
     
 
-bob = User()
-alice = User()
+# bob = User()
+# alice = User()
 
-# Bob is going to send Alice a message, so she needs bob's public key
-n, e = alice.public_key()
+# # Bob is going to send Alice a message, so she needs bob's public key
+# n, e = alice.public_key()
 
-#Bob now encrypts his message that is stored in the file: message.txt
-c = bob.encrypt(n, e, "message.txt")
+# #Bob now encrypts his message that is stored in the file: message.txt
+# c = bob.encrypt(n, e, "Hello!")
 
-#Now Bob can send his encrypted message to Alice to Decode
-message = alice.decrypt(c)
+# #Now Bob can send his encrypted message to Alice to Decode
+# message = alice.decrypt(c)
 
-print(message)
+# print(message)
