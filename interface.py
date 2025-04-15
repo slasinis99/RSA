@@ -4,8 +4,8 @@ def main_loop():
     u = User()
     print("Welcome new RSA user!\n\nWhat would you like to do?")
     state = 0
-    state_options = {0:["Show modulus and public key","Send a message","Decrypt a message"]}
-    while not state == -1:
+    state_options = {0:["Show modulus and public key","Send a message","Decrypt a message","Exit"]}
+    while not state == 4:
         if state == 0:
             for i, s in enumerate(state_options[state]):
                 print(f'{i}) {s}')
