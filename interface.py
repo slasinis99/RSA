@@ -29,6 +29,8 @@ def main_loop():
             c = int(input("Enter encrypted message:"))
             print()
             print(f"Decrypted Message: {u.decrypt(c)}")
+            print()
+            state = 0
 
 if __name__ == "__main__":
     main_loop()
