@@ -1,7 +1,10 @@
 import os
-from random import randint, choice
+from random import randint, choice,seed
 from sympy import isprime
 from gcd import gcd, find_modular_inverse
+import uuid
+
+seed(uuid.getnode())
 
 DIGIT_SIZE = 100
 
