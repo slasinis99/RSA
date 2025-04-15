@@ -3,8 +3,8 @@ from random import randint, choice
 from sympy import isprime
 from gcd import gcd, find_modular_inverse
 
-DIGIT_MIN = 100
-DIGIT_MAX = 200
+DIGIT_MIN = 400
+DIGIT_MAX = 500
 
 def big_prime() -> int:
     n = "1"
@@ -31,19 +31,14 @@ def exp(b, e, m):
     return (b * y) % m
 
 def pad(message, k):
-    # Check if the message is too long: at least 11 bytes are needed for padding.
     if len(message) > k - 11:
         raise ValueError("Message too long for the given key size (requires at least 11 bytes of padding)")
-    
-    ps_length = k - len(message) - 3  # Calculate the length of PS.
+    ps_length = k - len(message) - 3
     ps = bytearray()
-    # Generate random nonzero bytes for PS.
     while len(ps) < ps_length:
         r = os.urandom(1)
-        if r != b'\x00':  # Ensure the byte is nonzero.
+        if r != b'\x00':
             ps += r
-    
-    # Construct the padded message: 0x00 || 0x02 || PS || 0x00 || message
     padded = b'\x00' + b'\x02' + bytes(ps) + b'\x00' + message
     return padded
 
@@ -51,16 +46,10 @@ def os2ip(byte_string):
     return int.from_bytes(byte_string, byteorder='big')
 
 def i2osp(integer, length):
-    # Convert an integer to a byte sequence of the given length using big-endian conversion.
     return integer.to_bytes(length, byteorder='big')
 
 def unpad(padded_bytes):
-    if padded_bytes[0] != 0x00 or padded_bytes[1] != 0x02:
-        raise ValueError("Decryption error: incorrect padding.")
-    try:
-        delimiter_index = padded_bytes.index(b'\x00', 2)
-    except ValueError:
-        raise ValueError("Decryption error: padding delimiter not found.")
+    delimiter_index = padded_bytes.index(b'\x00', 2)
     return padded_bytes[delimiter_index+1:]
 
 class User():
