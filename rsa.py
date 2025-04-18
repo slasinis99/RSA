@@ -77,18 +77,3 @@ class User():
         padded_bytes = i2osp(m, (self.n.bit_length() + 7) // 8)
         plaintext_bytes = unpad(padded_bytes)
         return plaintext_bytes.decode('utf-8')
-    
-
-# bob = User()
-# alice = User()
-
-# # Bob is going to send Alice a message, so she needs bob's public key
-# n, e = alice.public_key()
-
-# #Bob now encrypts his message that is stored in the file: message.txt
-# c = bob.encrypt(n, e, "Hello!")
-
-# #Now Bob can send his encrypted message to Alice to Decode
-# message = alice.decrypt(c)
-
-# print(message)
